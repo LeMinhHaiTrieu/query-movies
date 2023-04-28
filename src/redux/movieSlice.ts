@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { MovieListType } from '../types';
 
@@ -41,9 +40,10 @@ export const fetchMoviesAPI = createAsyncThunk(
       Object.keys(queries).forEach((keyQuery:string) =>
         stringQuery += `&${keyQuery}=${queries[keyQuery]}`
       )
-      const response = await axios.get(`${baseURL}${stringQuery}`);
-      if (response.data.Error) return {Search: [], totalResults: 0}; 
-      return response.data;
+      const response = await fetch(`${baseURL}${stringQuery}`);
+      const data = await response.json();
+      if (data.Error) return {Search: [], totalResults: 0}; 
+      return data;
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -54,8 +54,9 @@ export const fetchMoviesDetailsAPI = createAsyncThunk(
   'movies/fetchMoviesDetailsAPI',
   async (id: string) => {
     try {
-      const response = await axios.get(`${baseURL}&plot=full&&i=${id}`);
-      return response.data;
+      const response = await fetch(`${baseURL}&plot=full&&i=${id}`);
+      const data = await response.json();
+      return data;
     } catch (error) {
       console.error('An error occurred:', error);
     }

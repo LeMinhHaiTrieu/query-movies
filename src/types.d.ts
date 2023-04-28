@@ -1,9 +1,3 @@
-export type BookState = {
-  id: string;
-  title: string | undefined;
-  author: string | undefined;
-};
-
 export type MovieItemType = {
   Poster: string;
   Type: string;
